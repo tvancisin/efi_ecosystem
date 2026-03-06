@@ -1,60 +1,67 @@
 <script>
-  import ForceDirectedTree from './lib/ForceDirectedTree.svelte';
+  import { onMount } from "svelte";
+  import ForceDirectedTree from "./lib/ForceDirectedTree.svelte";
+  import { datasetsStore, loadData } from "./datastore.js";
+
+  let data;
+
+  onMount(() => {
+    const unsubscribe = datasetsStore.subscribe((storeData) => {
+      if (!storeData) return;
+
+      ({ data } = storeData);
+    });
+
+    loadData();
+
+    return unsubscribe;
+  });
+
+  $: console.log(data);
+  
 
   const treeData = {
-    name: 'EFI Ecosystem',
+    name: "EFI Ecosystem",
     children: [
       {
-        name: 'Producers',
+        name: "Producers",
         children: [
-          { name: 'Phytoplankton' },
-          { name: 'Macroalgae' },
-          { name: 'Seagrass' }
-        ]
+          { name: "Phytoplankton" },
+          { name: "Macroalgae" },
+          { name: "Seagrass" },
+        ],
       },
       {
-        name: 'Consumers',
+        name: "Consumers",
         children: [
           {
-            name: 'Primary',
-            children: [
-              { name: 'Zooplankton' },
-              { name: 'Small Fish' }
-            ]
+            name: "Primary",
+            children: [{ name: "Zooplankton" }, { name: "Small Fish" }],
           },
           {
-            name: 'Secondary',
-            children: [
-              { name: 'Medium Fish' },
-              { name: 'Crustaceans' }
-            ]
+            name: "Secondary",
+            children: [{ name: "Medium Fish" }, { name: "Crustaceans" }],
           },
           {
-            name: 'Tertiary',
-            children: [
-              { name: 'Large Fish' },
-              { name: 'Marine Mammals' }
-            ]
-          }
-        ]
+            name: "Tertiary",
+            children: [{ name: "Large Fish" }, { name: "Marine Mammals" }],
+          },
+        ],
       },
       {
-        name: 'Decomposers',
-        children: [
-          { name: 'Bacteria' },
-          { name: 'Fungi' }
-        ]
+        name: "Decomposers",
+        children: [{ name: "Bacteria" }, { name: "Fungi" }],
       },
       {
-        name: 'Abiotic Factors',
+        name: "Abiotic Factors",
         children: [
-          { name: 'Sunlight' },
-          { name: 'Nutrients' },
-          { name: 'Temperature' },
-          { name: 'Salinity' }
-        ]
-      }
-    ]
+          { name: "Sunlight" },
+          { name: "Nutrients" },
+          { name: "Temperature" },
+          { name: "Salinity" },
+        ],
+      },
+    ],
   };
 </script>
 
@@ -65,7 +72,10 @@
   </header>
 
   <div class="legend">
-    <span class="hint">🖱 Drag nodes &nbsp;·&nbsp; Scroll to zoom &nbsp;·&nbsp; Drag canvas to pan</span>
+    <span class="hint"
+      >🖱 Drag nodes &nbsp;·&nbsp; Scroll to zoom &nbsp;·&nbsp; Drag canvas to
+      pan</span
+    >
   </div>
 
   <main>
@@ -77,7 +87,7 @@
   :global(body) {
     background: #0f172a;
     color: #e2e8f0;
-    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-family: "Segoe UI", system-ui, sans-serif;
     min-height: 100vh;
   }
 
