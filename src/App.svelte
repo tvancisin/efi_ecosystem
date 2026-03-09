@@ -1,15 +1,16 @@
 <script>
+  import * as d3 from "d3";
   import { onMount } from "svelte";
   import ForceDirectedTree from "./lib/ForceDirectedTree.svelte";
   import { datasetsStore, loadData } from "./datastore.js";
 
-  let data;
+  let data, hierarchy;
 
   onMount(() => {
     const unsubscribe = datasetsStore.subscribe((storeData) => {
       if (!storeData) return;
 
-      ({ data } = storeData);
+      ({ data, hierarchy } = storeData);
     });
 
     loadData();
@@ -17,8 +18,6 @@
     return unsubscribe;
   });
 
-  $: console.log(data);
-  
 
   const treeData = {
     name: "EFI Ecosystem",
@@ -63,11 +62,14 @@
       },
     ],
   };
+
+  $: console.log(treeData);
+  
 </script>
 
 <div class="app">
-  <header>
-    <h1>EFI Ecosystem</h1>
+  <!-- <header>
+    <h2>EFI Ecosystem</h1>
     <p class="subtitle">Force-Directed Tree Visualization</p>
   </header>
 
@@ -76,10 +78,10 @@
       >🖱 Drag nodes &nbsp;·&nbsp; Scroll to zoom &nbsp;·&nbsp; Drag canvas to
       pan</span
     >
-  </div>
+  </div> -->
 
   <main>
-    <ForceDirectedTree data={treeData} />
+    <ForceDirectedTree data={hierarchy} />
   </main>
 </div>
 
