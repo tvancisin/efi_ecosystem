@@ -23,9 +23,9 @@
   let activeData = data;
 
   const MIN_NODE_RADIUS = 5;
-  const MAX_NODE_RADIUS = 40;
+  const MAX_NODE_RADIUS = 50;
   const COLLISION_PADDING = 5;
-  const ROOT_RADIUS = 40;
+  const ROOT_RADIUS = 60;
   const DEFAULT_LINK_DISTANCE = 10;
   const DEFAULT_LINK_STRENGTH = 1;
   const SHALLOW_LINK_DISTANCE = 150;
@@ -174,6 +174,14 @@
     initSimulation();
   }
 
+  function getLinkStrokeWidth(link) {
+    const targetDepth = link?.target?.depth ?? 0;
+
+    if (targetDepth <= 1) return 4;
+    if (targetDepth === 2) return 2;
+    return 1;
+  }
+
   // ── lifecycle ────────────────────────────────────────────────────────────────
   onMount(() => {
     mounted = true;
@@ -259,7 +267,7 @@
           x2={link.target.x ?? 0}
           y2={link.target.y ?? 0}
           stroke="gray"
-          stroke-width="1.5"
+          stroke-width={getLinkStrokeWidth(link)}
         />
       {/each}
 
