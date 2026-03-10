@@ -8,21 +8,26 @@ export async function loadData() {
 
     dataStatus.set({ loading: true, error: null });
     try {
-        let data;
+        let ecosystem, events, people, programmes;
         [
-            data
+            ecosystem, events, people, programmes
         ] = await getCSV([
-            "./Ecosystem-Export-2026-March-04-1530.csv",
+            "./ecosystem.csv",
+            "./events.csv",
+            "./people.csv",
+            "./programmes.csv"
         ]);
 
-        data.forEach(d => {
+        console.log(events);
+
+        ecosystem.forEach(d => {
             const parts = d.Ecosystem.split(">");
             d.level1 = parts[0];
             d.level2 = parts[1] || null;
         });
 
         let grouping = d3.groups(
-            data,
+            ecosystem,
             d => d.level1,
             d => d.level2
         );
@@ -47,13 +52,8 @@ export async function loadData() {
             }))
         };
 
-        console.log(hierarchy);
-
-        console.log(hierarchy);
-
-
         datasetsStore.set({
-            data,
+            data: ecosystem,
             hierarchy
         });
 

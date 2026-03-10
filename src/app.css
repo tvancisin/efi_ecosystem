@@ -7,7 +7,7 @@
 }
 
 :root {
-  font-family: "Segoe UI", system-ui, sans-serif;
+  --app-font: "Montserrat", system-ui, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   font-synthesis: none;
@@ -22,6 +22,16 @@ body {
   min-height: 100vh;
   background: #ffffff;
   color: #e2e8f0;
+}
+
+html,
+body,
+#app,
+button,
+input,
+select,
+textarea {
+  font-family: var(--app-font) !important;
 }
 
 #app {
